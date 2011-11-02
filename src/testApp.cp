@@ -7,13 +7,6 @@ ofPoint centerOfLineAB;
 //--------------------------------------------------------------
 void testApp::setup(){
     nrOfPoints = 3;
-//    for (int i = 0; i < nrOfPoints; i++) {
-//        int x = i * 200;
-//        int y = i * 50;
-//        int z = 200;
-//        ofPoint pt = ofPoint(x, y, z);
-//        points.push_back(pt);
-//    }
     
     points.push_back(ofPoint(300,300));
     points.push_back(ofPoint(600,300));    
@@ -22,10 +15,20 @@ void testApp::setup(){
 	// alpha aan
 	ofEnableAlphaBlending();
 	
+    /** 
 	// load movie
 	bloemMovie.loadMovie("movies/bloem_flv.flv");  
     // plays movie  
-    bloemMovie.play();  
+    bloemMovie.play(); 
+    */
+    
+    
+    sequence.loadSequence("frame/frame00", "png", 1, 99, 2);
+	sequence.preloadAllFrames();	
+	sequence.setFrameRate(20); //fps
+	
+	playing = true; 
+    
     
     
 }
@@ -85,14 +88,21 @@ void testApp::draw(){
     ofNoFill();
     ofCircle(triangleCenter, radius);
 	
-	{   
+	  
 		ofPushMatrix();
 		ofTranslate(triangleCenter.x, triangleCenter.y, 0);
 		ofRotateZ(rot);
-		bloemMovie.draw(-radius,-radius, radius*2, radius*2);
+		//bloemMovie.draw(-radius,-radius, radius*2, radius*2);
+        if(playing){
+		//get the frame based on the current time and draw it
+		sequence.getFrameForTime(ofGetElapsedTimef())->draw(-radius,-radius, radius*2, radius*2);
+        }
 		ofRect(-radius,-radius, radius*2, radius*2);			//	<< Deze uit.
 		ofPopMatrix();
-	}  
+	  
+    
+
+
     
 }
 

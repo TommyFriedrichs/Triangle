@@ -13,6 +13,7 @@
 #include "ofQuaternion.h"
 
 #include "ofVideoPlayer_alpha.h"
+#include "ofxImageSequence.h"
 
 
 class testApp : public ofBaseApp{
@@ -62,4 +63,9 @@ public:
     int nrOfPoints;
     
 	ofVideoPlayer_alpha		bloemMovie;
+    
+    
+    ofxImageSequence sequence;
+	ofImage background;
+	bool playing;
 };
