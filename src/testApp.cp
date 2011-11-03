@@ -22,13 +22,20 @@ void testApp::setup(){
     bloemMovie.play(); 
     */
     
-    
+    // png sequence
     sequence.loadSequence("frame/frame00", "png", 1, 99, 2);
 	sequence.preloadAllFrames();	
 	sequence.setFrameRate(20); //fps
 	
 	playing = true; 
     
+    // png sequence
+    shape1.loadSequence("image/shape1_layer", "png", 1, 4, 2);
+	shape1.preloadAllFrames();	
+    
+    playingImg = false; 
+
+    counter = 0;
     
     
 }
@@ -53,7 +60,7 @@ void testApp::update(){
 	rot = counter;
     
 	//counter koekenbakken
-	counter = counter+midLine/600; 
+	counter = midLine; 
 	if (counter == 360) { 
 		counter = 0; 
 	}
@@ -82,21 +89,25 @@ void testApp::draw(){
 	ofLine(points[2],centerOfLineAB);
     
     
-//    InCircle tekenen;
- //   ofSetColor(255,0, 0);
+//  InCircle tekenen;
+//  ofSetColor(255,0, 0);
     ofSetLineWidth(1);
     ofNoFill();
     ofCircle(triangleCenter, radius);
 	
 	  
-		ofPushMatrix();
+    ofPushMatrix();
 		ofTranslate(triangleCenter.x, triangleCenter.y, 0);
 		ofRotateZ(rot);
 		//bloemMovie.draw(-radius,-radius, radius*2, radius*2);
-        if(playing){
+    
 		//get the frame based on the current time and draw it
-		sequence.getFrameForTime(ofGetElapsedTimef())->draw(-radius,-radius, radius*2, radius*2);
-        }
+        //float percent = ofMap(mouseX, 0, ofGetWidth(), 0, 1.0, true);  
+		shape1.getFrame(1)->draw(-radius,-radius, radius*2, radius*2); 
+		shape1.getFrame(2)->draw(-radius,-radius, radius*2, radius*2);
+		shape1.getFrame(3)->draw(-radius,-radius, radius*2, radius*2);
+		shape1.getFrame(4)->draw(-radius,-radius, radius*2, radius*2);
+        ofNoFill();
 		ofRect(-radius,-radius, radius*2, radius*2);			//	<< Deze uit.
 		ofPopMatrix();
 	  

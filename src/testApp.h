@@ -62,10 +62,16 @@ public:
     vector<ofPoint> points;
     int nrOfPoints;
     
+    
+    //video
 	ofVideoPlayer_alpha		bloemMovie;
     
-    
+    //png sequence
     ofxImageSequence sequence;
 	ofImage background;
 	bool playing;
+    
+    //img loader
+    ofxImageSequence shape1;
+	bool playingImg;
 };
