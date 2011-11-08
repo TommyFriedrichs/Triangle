@@ -21,6 +21,8 @@ void testApp::setup(){
 	triangleReceiver.shape1.preloadAllFrames();	
     
     triangleReceiver.playingImg = false; 
+    
+    shader.load("shaders/shader");
 }
 
 //--------------------------------------------------------------
@@ -67,7 +69,58 @@ void testApp::update(){
 
 //--------------------------------------------------------------
 void testApp::draw(){
-    ofBackground(0, 0, 0); 
+    ofBackground(0, 0, 0);
+    
+//    ofBeginShape(OF_LINES_MODE);
+//    
+//    ofVertex(0, 0);
+//    ofVertex(100, 100);
+//    
+//    ofEndShape();
+//    glBegin(GL_TRIANGLE_STRIP);
+//    glColor3f(1.0, 0.0, 0.0);
+//    glVertex2f(100, 100);
+//    glVertex2f(100, 50);
+//    glVertex2f(150, 100);
+//    glVertex2f(150, 60);
+//        glColor3f(1.0, 1.0, 1.0);
+//    glVertex2f(200, 100);
+//    glVertex2f(200, 70);
+//    glVertex2f(250, 100);
+//    glVertex2f(250, 80);
+//    glVertex2f(300, 100);
+//    glVertex2f(300, 90);
+//    glVertex2f(350, 100);
+//    glVertex2f(350, 100);
+//    glEnd();
+
+//    ofSetCircleResolution(1000);
+//    ofCircle( 100, 100, 100);
+    
+    shader.begin();
+    float resolution = 100;
+    ofPoint center = ofPoint(mouseX, mouseY);
+    glBegin(GL_LINE_STRIP);
+    float phase = 0;
+    float x = 0;
+    float y = 0;
+    float radius = 100;
+    float noiseAmount = mouseX / (float)ofGetWidth() * 10.0;
+    float phaseShift = mouseY / (float)ofGetHeight() * 10.0;
+    for (int i = 0; i < resolution; i++) {
+        x = (cos(phase) * radius) + ofGetWidth() / 2.0;
+        y = (sin(phase) * radius) + ofGetHeight() / 2.0;
+        phase += TWO_PI / resolution;
+        
+        phase += phaseShift;
+        
+        radius -= ofRandom(noiseAmount * 10);
+        
+        glVertex2f(x, y);
+    }
+    
+    glEnd();
+    shader.end();
     
     list<Triangle*>::iterator triangleIt;
     for(triangleIt = triangleReceiver.triangles.begin(); triangleIt != triangleReceiver.triangles.end(); triangleIt++){
@@ -131,16 +184,23 @@ void testApp::draw(){
             ofRotateZ(180);
             triangleReceiver.shape1.getFrame(1)->draw(0 -(*triangleIt)->radius1/2,0 - (*triangleIt)->radius1/2, (*triangleIt)->radius1, (*triangleIt)->radius1);
             ofPopMatrix();
+            
+//            drawShape((*triangleIt), 180, (*triangleIt)->radius1);
+
+//            drawShape(Triangle *triangle, int rotation, int radius);
+            
             ofPushMatrix();
             ofTranslate((*triangleIt)->center.x, (*triangleIt)->center.y, 0);
             ofRotateZ(100);
             triangleReceiver.shape1.getFrame(1)->draw(0 -(*triangleIt)->radius2/2,0 - (*triangleIt)->radius2/2, (*triangleIt)->radius2, (*triangleIt)->radius2);
             ofPopMatrix(); 
+            
             ofPushMatrix();
             ofTranslate((*triangleIt)->center.x, (*triangleIt)->center.y, 0);
             ofRotateZ(60);
             triangleReceiver.shape1.getFrame(1)->draw(0 -(*triangleIt)->radius3/2,0 - (*triangleIt)->radius3/2, (*triangleIt)->radius3, (*triangleIt)->radius3);
             ofPopMatrix();
+            
             ofPushMatrix();
             ofTranslate((*triangleIt)->center.x, (*triangleIt)->center.y, 0);
             ofRotateZ(90);

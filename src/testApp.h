@@ -27,6 +27,6 @@ public:
     vector<ofPoint> points;
     TriangleReceiver triangleReceiver;
     
-    
+    ofShader shader;
 };
 
